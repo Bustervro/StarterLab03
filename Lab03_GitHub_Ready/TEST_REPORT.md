@@ -64,7 +64,3 @@ Both testing methods are useful because they help find different problems.
 All five automated tests passed, and Jest reported 100% code coverage for App.tsx. The automated tests confirmed the starting count, button behavior, reset function, and multiple actions.
 
 The manual exploratory testing results must be recorded separately.
-
-## AI Transparency
-
-AI assistance was used to prepare the automated tests and draft this report. The reported automated test results and coverage percentages are based on the actual Codespaces terminal output.
