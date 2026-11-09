@@ -1,66 +1,66 @@
 # Lab 03 — Exploratory and White Box Testing
 
-## 1. Exploratory Testing
+## 1. Exploratory testing (test the app BEFORE reading `App.tsx`)
 
-**Goal:** Test the Counter app to see if the buttons change the number correctly.
+**Charter:** Try the Counter buttons in different orders to see whether the displayed number changes as expected and whether Reset works from different values.
 
-| Action | Expected Result | Actual Result | Status |
+**Important:** Run the app, try the actions below, and fill in *Actual result* and *Pass/Fail* from what you really see.
+
+| Action tried | Expected result | Actual result (fill in) | Pass/Fail (fill in) |
 |---|---|---|---|
-| Click Increment once from 0 | Count: 1 | To check manually | Pending |
-| Click Decrement once from 0 | Count: -1 | To check manually | Pending |
-| Click Increment twice, then Decrement | Count: 1 | To check manually | Pending |
-| Click Increment, then Reset | Count: 0 | To check manually | Pending |
-| Click Reset when the count is already 0 | Count: 0 | To check manually | Pending |
+| Click Increment once from 0 | Count: 1 | | |
+| Click Decrement once from 0 | Count: -1 | | |
+| Click Increment twice, then Decrement from 0 | Count: 1 | | |
+| Click Increment, then Reset from 0 | Count: 0 | | |
+| Click Reset while already at 0 | Count: 0 | | |
 
-## 2. White Box Testing
+## 2. White box code review
 
-I reviewed the Counter app code. The starting number is 0.
+- **Starting count:** `useState(0)`, so the count begins at `0`.
+- **Increment statement:** `setCount(count + 1)` runs when Increment is clicked.
+- **Decrement statement:** `setCount(count - 1)` runs when Decrement is clicked.
+- **Reset statement:** `setCount(0)` runs when Reset is clicked.
+- **Branches/loops:** There are no explicit `if`, `switch`, or loop statements in `App.tsx`, so branch and loop coverage are not meaningful measures for this component.
 
-- Increment adds 1.
-- Decrement subtracts 1.
-- Reset changes the number to 0.
+## 3. Automated white box tests
 
-The component has no explicit loops or conditional branches.
+The five Jest/React Testing Library tests are in `counter-app/src/App.test.tsx`:
 
-## 3. Automated Test Results
+1. Starts at 0 and renders three buttons
+2. Increment changes 0 to 1
+3. Decrement changes 0 to -1
+4. Reset changes a nonzero count to 0
+5. Multiple actions work in sequence, including an action after Reset
 
-I ran the tests using Jest and React Testing Library.
+**Test run screenshot:** Add `screenshots/test-run.png` after running `npm test` inside `counter-app`.
 
-| Test | Result |
+## 4. Code coverage
+
+Run `npm test -- --coverage` inside `counter-app` and copy the percentages actually printed in the terminal. Do not guess.
+
+| Coverage type | Percentage from my test run |
 |---|---|
-| Starting count is 0 | PASS |
-| Increment changes 0 to 1 | PASS |
-| Decrement changes 0 to -1 | PASS |
-| Reset changes a nonzero number to 0 | PASS |
-| Multiple button clicks work correctly | PASS |
+| Statements | *Fill in from report* |
+| Branches | *Fill in from report (may be N/A)* |
+| Functions | *Fill in from report* |
+| Lines | *Fill in from report* |
 
-**Total: 5 tests passed, 0 failed.**
+**Coverage screenshot:** Add `screenshots/coverage.png` after running the command.
 
-## 4. Code Coverage
+**Coverage explanation:** These tests run the Increment, Decrement, and Reset handlers and check that the number displayed changes. If the coverage report says all statements were tested, no statements in `App.tsx` remained unexecuted. The component has no `if` conditions or loops, which is why the branch field may be missing or marked N/A. Even 100% coverage cannot prove every possible behavior is correct; tests still need to check meaningful results.
 
-| Coverage Type | Result |
-|---|---|
-| Statements | 100% |
-| Branches | 100% |
-| Functions | 100% |
-| Lines | 100% |
+## 5. Exploratory versus white box testing
 
-All statements and functions in App.tsx were tested. No statements remained uncovered. Jest reported 100% branch coverage, but the component has no explicit conditional branches.
+**Exploratory idea:** Press Reset when the count is already 0, to see what happens.
 
-100% code coverage does not guarantee an application has no bugs.
+**White box idea:** Check Reset after changing the count to a nonzero value, because the source has a separate `setCount(0)` handler that must be exercised.
 
-## 5. Comparing Testing Methods
+**What changed after reading code:** I could make sure I tested each state-changing handler rather than only trying random button clicks.
 
-Exploratory testing means trying the app like a normal user without first looking at the code.
+**Exploratory limitation:** I might miss code that I do not know exists.
 
-White box testing means reading the code and creating tests to check its behavior.
+**White box limitation:** Running every statement does not show that the whole app works correctly for users.
 
-Exploratory testing can miss hidden code problems. White box testing can miss problems that users experience.
+## AI transparency
 
-Both testing methods are useful because they help find different problems.
-
-## 6. Conclusion
-
-All five automated tests passed, and Jest reported 100% code coverage for App.tsx. The automated tests confirmed the starting count, button behavior, reset function, and multiple actions.
-
-The manual exploratory testing results must be recorded separately.
+AI assisted in drafting the test file and report structure. AI assisted with the test code and report structure. Exploratory observations, test execution, screenshots, and coverage measurements must be completed from an actual run.
